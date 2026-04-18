@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Team {
+  id        Int      @id
+  name      String
+  shortName String
+  players   Player[]
+  fixturesHome Fixture[] @relation("HomeTeam")
+  fixturesAway Fixture[] @relation("AwayTeam")
+}
+
+model Player {
+  id         Int     @id
+  webName    String
+  teamId     Int
+  position   Int
+  price      Int
+  ownership  Float
+  team       Team    @relation(fields: [teamId], references: [id])
+  stats      PlayerGameweekStats[]
+  predictions PredictionsLog[]
+}
+
+model Gameweek {
+  id       Int       @id
+  name     String
+  deadline DateTime
+  finished Boolean   @default(false)
+  fixtures Fixture[]
+  stats    PlayerGameweekStats[]
+  predictions PredictionsLog[]
+}
+
+model Fixture {
+  id           Int      @id
+  gameweekId   Int
+  homeTeamId   Int
+  awayTeamId   Int
+  homeTeam     Team     @relation("HomeTeam", fields: [homeTeamId], references: [id])
+  awayTeam     Team     @relation("AwayTeam", fields: [awayTeamId], references: [id])
+  gameweek     Gameweek @relation(fields: [gameweekId], references: [id])
+}
+
+model PlayerGameweekStats {
+  playerId   Int
+  gameweekId Int
+  minutes    Int      @default(0)
+  points     Int      @default(0)
+  goals      Int      @default(0)
+  assists    Int      @default(0)
+  xg        Float?
+  xa        Float?
+  bonus      Int      @default(0)
+  player     Player   @relation(fields: [playerId], references: [id])
+  gameweek   Gameweek @relation(fields: [gameweekId], references: [id])
+  @@id([playerId, gameweekId])
+}
+
+model PredictionsLog {
+  id           Int      @id @default(autoincrement())
+  playerId     Int
+  gameweekId   Int
+  predictedPts Float
+  q10          Float
+  q90          Float
+  modelVersion String
+  createdAt    DateTime @default(now())
+  player       Player   @relation(fields: [playerId], references: [id])
+  gameweek     Gameweek @relation(fields: [gameweekId], references: [id])
+}
