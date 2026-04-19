@@ -8,5 +8,6 @@
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "excluse": ["node_modules", "prisma"]
+  "exclude": ["node_modules", "prisma"]
 }
+
