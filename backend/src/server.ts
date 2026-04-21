@@ -9,7 +9,7 @@ const app = express()
 const PORT = 3000
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'fpl-oracle-two.vercel.apphttps://fpl-oracle-two.vercel.app/']
+  origin: ['http://localhost:5173', 'https://fpl-oracle-two.vercel.app']
 }))
 app.use(express.json())
 app.use('/api/predictions', predictionsRouter)
