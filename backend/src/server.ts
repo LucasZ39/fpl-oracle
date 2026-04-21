@@ -8,7 +8,9 @@ import predictionsRouter from './routes/predictions'
 const app = express()
 const PORT = 3000
 
-app.use(cors())
+app.use(cors({
+  origin: ['http://localhost:5173', 'fpl-oracle-two.vercel.apphttps://fpl-oracle-two.vercel.app/']
+}))
 app.use(express.json())
 app.use('/api/predictions', predictionsRouter)
 
