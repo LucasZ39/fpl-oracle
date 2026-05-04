@@ -4,6 +4,7 @@ import cors from 'cors'
 import playersRouter from './routes/player'
 import fixturesRouter from './routes/fixture'
 import predictionsRouter from './routes/predictions'
+import fplRouter from './routes/fpl'
 
 const app = express()
 const PORT = 3000
@@ -20,6 +21,7 @@ app.get('/health', (req, res) => {
 
 app.use('/api/players', playersRouter)
 app.use('/api/fixtures', fixturesRouter)
+app.use('/api/fpl', fplRouter)
 
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`)
